@@ -1,3 +1,3 @@
 export default function ExplorePage() {
-  return <></>
+  return <>EXPLOREPAGE</>
 }
