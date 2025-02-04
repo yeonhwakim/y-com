@@ -1,3 +1,7 @@
-export default function BeforLoginPage() {
-  return <p>BeforLoginPage</p>
+import Main from "@/app/(beforeLogin)/_component/Main";
+
+export default function Page() {
+  return (
+    <Main />
+  )
 }
