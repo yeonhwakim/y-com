@@ -1,18 +1,45 @@
 "use client";
 
 import style from '@/app/(beforeLogin)/_component/login.module.css';
-import { useState } from "react";
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent, useState } from "react";
 
 export default function LoginModal() {
-  const [id, setId] = useState();
-  const [password, setPassword] = useState();
-  const [message, setMessage] = useState();
-  const onSubmit = () => { };
-  const onClickClose = () => { };
+  const router = useRouter()
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-  const onChangeId = () => { };
+  const onSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setMessage('');
+    try {
+      const result = await signIn("credentials", {
+        username: id,
+        password,
+        redirect: false,
+      })
+      console.log(result);
+      router.replace('/home');
+    } catch (err) {
+      console.error(err);
+      setMessage('아이디와 비밀번호가 일치하지 않습니다.');
+    }
+  };
 
-  const onChangePassword = () => { };
+  const onClickClose = () => {
+    router.back()
+    return null
+  };
+
+  const onChangeId = (e: ChangeEvent<HTMLInputElement>) => {
+    setId(e.target.value)
+  };
+
+  const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value)
+  };
 
   return (
     <div className={style.modalBackground}>
